@@ -1,4 +1,6 @@
+import React from 'react';
 import { useInView } from '../hooks/useInView';
+import { Flame, AlertOctagon, Droplet, Battery, CircleDot, Clock } from 'lucide-react';
 
 interface Alert {
   id: number;
@@ -6,7 +8,7 @@ interface Alert {
   title: string;
   message: string;
   timestamp: string;
-  icon: string;
+  icon: React.ComponentType<{ size: number }>;
 }
 
 const mockAlerts: Alert[] = [
@@ -16,7 +18,7 @@ const mockAlerts: Alert[] = [
     title: 'Engine Overheating',
     message: 'Engine temperature exceeded 115°C. Immediate cooldown required. Possible coolant leak or radiator malfunction.',
     timestamp: '2 min ago',
-    icon: '🔥',
+    icon: Flame,
   },
   {
     id: 2,
@@ -24,7 +26,7 @@ const mockAlerts: Alert[] = [
     title: 'Brake Wear Critical',
     message: 'Front brake pad thickness below 15%. Urgent replacement needed to ensure safe braking performance.',
     timestamp: '8 min ago',
-    icon: '🛑',
+    icon: AlertOctagon,
   },
   {
     id: 3,
@@ -32,7 +34,7 @@ const mockAlerts: Alert[] = [
     title: 'Low Oil Level',
     message: 'Engine oil level at 22%. Schedule an oil change within the next 500 km to prevent engine damage.',
     timestamp: '25 min ago',
-    icon: '🛢️',
+    icon: Droplet,
   },
   {
     id: 4,
@@ -40,7 +42,7 @@ const mockAlerts: Alert[] = [
     title: 'Low Battery Voltage',
     message: 'Battery voltage at 12.1V, below optimal range. Consider testing battery health and alternator output.',
     timestamp: '1 hr ago',
-    icon: '🔋',
+    icon: Battery,
   },
   {
     id: 5,
@@ -48,7 +50,7 @@ const mockAlerts: Alert[] = [
     title: 'Tire Pressure Low',
     message: 'Rear-left tire pressure at 27 PSI. Inflate to recommended 32 PSI for optimal performance.',
     timestamp: '2 hr ago',
-    icon: '🛞',
+    icon: CircleDot,
   },
 ];
 
@@ -60,7 +62,7 @@ export default function Alerts() {
       <div ref={ref} className="max-w-5xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-xs font-semibold tracking-[0.3em] uppercase text-[#00ff88] mb-3 block">Alerts</span>
-          <h2 className="font-[Orbitron] text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
             System <span className="neon-text">Alerts</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
@@ -73,15 +75,15 @@ export default function Alerts() {
           style={{ opacity: isInView ? 1 : 0, transform: isInView ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease' }}
         >
           <div className="glass-card p-4 text-center">
-            <div className="font-[Orbitron] text-2xl font-bold text-white">{mockAlerts.length}</div>
+            <div className="text-2xl font-bold text-white">{mockAlerts.length}</div>
             <div className="text-xs text-gray-500">Total Alerts</div>
           </div>
           <div className="glass-card p-4 text-center">
-            <div className="font-[Orbitron] text-2xl font-bold text-[#ff3344]">{mockAlerts.filter(a => a.type === 'critical').length}</div>
+            <div className="text-2xl font-bold text-[#ff3344]">{mockAlerts.filter(a => a.type === 'critical').length}</div>
             <div className="text-xs text-gray-500">Critical</div>
           </div>
           <div className="glass-card p-4 text-center">
-            <div className="font-[Orbitron] text-2xl font-bold text-[#ffaa00]">{mockAlerts.filter(a => a.type === 'warning').length}</div>
+            <div className="text-2xl font-bold text-[#ffaa00]">{mockAlerts.filter(a => a.type === 'warning').length}</div>
             <div className="text-xs text-gray-500">Warnings</div>
           </div>
         </div>
@@ -101,10 +103,12 @@ export default function Alerts() {
                 animation: alert.type === 'critical' ? 'blink-red 2s infinite' : 'none',
               }}
             >
-              <div className="flex-shrink-0 text-3xl mt-0.5">{alert.icon}</div>
+              <div className="flex-shrink-0 text-[#00ff88] mt-0.5">
+                <alert.icon size={32} />
+              </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-1 flex-wrap">
-                  <h3 className="font-[Orbitron] text-sm font-semibold text-white">{alert.title}</h3>
+                  <h3 className="text-sm font-semibold text-white">{alert.title}</h3>
                   <span
                     className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider"
                     style={{
@@ -117,7 +121,9 @@ export default function Alerts() {
                   </span>
                 </div>
                 <p className="text-gray-400 text-sm leading-relaxed">{alert.message}</p>
-                <span className="text-xs text-gray-600 mt-2 inline-block">⏱ {alert.timestamp}</span>
+                <span className="text-xs text-gray-600 mt-2 inline-flex items-center gap-1">
+                  <Clock size={12} /> {alert.timestamp}
+                </span>
               </div>
             </div>
           ))}

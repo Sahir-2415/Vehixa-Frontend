@@ -1,7 +1,8 @@
 import { useInView } from "../hooks/useInView";
+import { AlertOctagon, Droplet, Battery, CircleDot, Snowflake, Wrench, Lightbulb, Clock } from "lucide-react";
 
 interface Insight {
-  icon: string;
+  icon: typeof AlertOctagon;
   component: string;
   condition: string;
   conditionColor: string;
@@ -12,7 +13,7 @@ interface Insight {
 
 const insights: Insight[] = [
   {
-    icon: '🛑',
+    icon: AlertOctagon,
     component: 'Brake Pads',
     condition: 'Worn — 18% remaining',
     conditionColor: '#ff3344',
@@ -21,7 +22,7 @@ const insights: Insight[] = [
     timeline: '2–5 days',
   },
   {
-    icon: '🛢️',
+    icon: Droplet,
     component: 'Engine Oil',
     condition: 'Low — 22% level',
     conditionColor: '#ffaa00',
@@ -30,7 +31,7 @@ const insights: Insight[] = [
     timeline: '1–3 days',
   },
   {
-    icon: '🔋',
+    icon: Battery,
     component: 'Battery',
     condition: 'Aging — 12.1V',
     conditionColor: '#ffaa00',
@@ -39,7 +40,7 @@ const insights: Insight[] = [
     timeline: '1–2 weeks',
   },
   {
-    icon: '🛞',
+    icon: CircleDot,
     component: 'Tires',
     condition: 'Pressure low — 27 PSI',
     conditionColor: '#ffaa00',
@@ -48,7 +49,7 @@ const insights: Insight[] = [
     timeline: 'Immediate',
   },
   {
-    icon: '❄️',
+    icon: Snowflake,
     component: 'Coolant System',
     condition: 'Temperature elevated',
     conditionColor: '#ffaa00',
@@ -57,7 +58,7 @@ const insights: Insight[] = [
     timeline: '1 month',
   },
   {
-    icon: '🔧',
+    icon: Wrench,
     component: 'Transmission',
     condition: 'Normal — Monitored',
     conditionColor: '#00ff88',
@@ -81,7 +82,7 @@ export default function MaintenanceInsights() {
       <div ref={ref} className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-xs font-semibold tracking-[0.3em] uppercase text-[#00ff88] mb-3 block">AI Insights</span>
-          <h2 className="font-[Orbitron] text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
             Maintenance <span className="neon-text">Insights</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
@@ -101,10 +102,12 @@ export default function MaintenanceInsights() {
               }}
             >
               <div className="flex items-start gap-4">
-                <div className="text-3xl flex-shrink-0">{ins.icon}</div>
+                <div className="flex-shrink-0 text-[#00ff88]">
+                  <ins.icon size={32} />
+                </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
-                    <h3 className="font-[Orbitron] text-sm font-semibold text-white group-hover:text-[#00ff88] transition-colors">
+                    <h3 className="text-sm font-semibold text-white group-hover:text-[#00ff88] transition-colors">
                       {ins.component}
                     </h3>
                     <span
@@ -122,10 +125,11 @@ export default function MaintenanceInsights() {
                     {ins.condition}
                   </p>
                   <p className="text-gray-400 text-sm leading-relaxed mb-3">
-                    💡 {ins.recommendation}
+                    <Lightbulb className="inline mr-1" size={16} /> {ins.recommendation}
                   </p>
                   <div className="flex items-center gap-2 text-xs text-gray-500">
-                    <span>⏰ Timeline:</span>
+                    <Clock size={14} />
+                    <span>Timeline:</span>
                     <span className="font-mono text-gray-300">{ins.timeline}</span>
                   </div>
                 </div>
